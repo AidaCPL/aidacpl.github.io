@@ -1,3 +1,13 @@
 ---
 title: "Research"
 ---
+## Working Papers
+**Paper Title Here**
+*with A. Coauthor* — under review
+[[PDF](papers/paper.pdf)] [[Code](https://github.com/USERNAME/project)]
+> One- or two-sentence abstract: the argument and the empirical strategy.
+**Data-generating process.** Where these data came from, who produced them,
+and what was decided in producing them.
+## Publications
+Your Name (2025). "A Real Title." *Journal*, 12(3), 45–67.
+[[DOI](https://doi.org/10.xxxx/yyyy)]
