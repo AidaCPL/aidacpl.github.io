@@ -1,0 +1,29 @@
+---
+title: "Aida Camacho Ponce de Leon"
+image: profile.jpg
+about:
+  template: trestles   # or: trestles, jolla, solana, marquee, column
+  image-shape: round
+  image-width: 14em
+  links:
+    - icon: envelope
+      text: Email
+      href: mailto:dal920987@utdallas.edu
+    - icon: github
+      text: GitHub
+      href: https://github.com/AIDACPL
+    - icon: mortarboard
+      text: Google Scholar
+      href: https://scholar.google.com/citations?user=XXXX
+---
+
+I am a MS student in Social Data Analytics and Research at the University of Texas at Dallas. My research examines...
+
+## Research Interests
+
+- one
+
+- two
+
+- three
+

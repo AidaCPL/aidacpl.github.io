@@ -1,0 +1,32 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: 'Aida Camacho Ponce de Leon'
+  description: 'something about research'
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: research.qmd
+        text: Research
+      - href: teaching.qmd
+        text: Teaching
+      - href: cv.qmd
+        text: CV
+    right:
+      - icon: github
+        href: https://github.com/AIDACPL
+      - icon: envelope
+        href: mailto:dal920987@utdallas.edu
+
+format:
+  html:
+    theme:
+      - journal # try: flatly, litera, journal, darkly
+      - brand
+    css: styles.css
+    toc: true
+
+
