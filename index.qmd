@@ -12,41 +12,12 @@ about:
     - icon: github
       text: GitHub
       href: https://github.com/AIDACPL
-    - icon: mortarboard
-      text: Google Scholar
-      href: https://scholar.google.com/citations?user=XXXX
+
 ---
-### Social Data Analytics · Cities · Energy · Environment
+## Social Data Analytics · Cities · Energy · Environment
 
 I am a graduate student in Social Data Analytics and Research at the University of Texas at Dallas. I am interested in using data, spatial analysis, and computational methods to understand how environmental and technological changes shape cities and everyday life.
 
 My work sits at the intersection of **data science, GIS, environmental sustainability, and social inequality**.
 
-## Research Interests
-
-- Energy and environmental inequality
-- Cities and urban systems
-- GIS and spatial analysis
-- Data science for social research
-- Climate change and energy systems
-
-## Selected Work
-
-### Energy Inequality in Mexico
-
-A spatial analysis of household electricity consumption and energy burden, examining how income, housing characteristics, and climate shape access to energy.
-
-**Methods:** GIS · statistical modeling · household survey data
-
-### Climate Change and the Future of Cities
-
-Research examining how changing temperatures affect energy demand, renewable energy systems, and household energy burden.
-
-**Methods:** literature synthesis · spatial analysis · data visualization
-
-### Data & Social Research
-
-Projects applying computational and statistical methods to questions about people, places, and environmental systems.
-
-**Methods:** Python · R · GIS · machine learning
 

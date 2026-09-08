@@ -1,11 +1,32 @@
 ---
 title: "Research"
 ---
-## Working Papers
+## Interests
 
-Currently I don't have any papers in progress. 
+- Energy and environmental inequality
+- Cities and urban systems
+- GIS and spatial analysis
+- Data science for social research
+- Climate change and energy systems
 
-## Publications
-No available publications.
+## Selected Work
+
+### Energy Inequality in Mexico
+
+A spatial analysis of household electricity consumption and energy burden, examining how income, housing characteristics, and climate shape access to energy.
+
+**Methods:** GIS · statistical modeling · household survey data
+
+### Climate Change and the Future of Cities
+
+Research examining how changing temperatures affect energy demand, renewable energy systems, and household energy burden.
+
+**Methods:** literature synthesis · spatial analysis · data visualization
+
+### Data & Social Research
+
+Projects applying computational and statistical methods to questions about people, places, and environmental systems.
+
+**Methods:** Python · R · GIS · machine learning
 
 ---

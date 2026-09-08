@@ -2,7 +2,7 @@ project:
   type: website
   output-dir: docs
   resources:
-    - cv.pdf
+    profile.jpg
 
 website:
   title: "Aida Camacho Ponce de Leon"
@@ -39,4 +39,4 @@ format:
       - journal
       - brand
     css: styles.css
-    toc: false
+    toc: true
