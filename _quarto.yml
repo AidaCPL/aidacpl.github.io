@@ -3,18 +3,28 @@ project:
   output-dir: docs
 
 website:
-  title: 'Aida Camacho Ponce de Leon'
-  description: 'something about research'
+  title: "Aida Camacho Ponce de Leon"
+  description: "Research, data, cities, energy, and the environment"
+  
   navbar:
     left:
       - href: index.qmd
         text: Home
+  
       - href: research.qmd
         text: Research
+  
       - href: teaching.qmd
         text: Teaching
-      - href: cv.qmd
+  
+      - href: cv.pdf
         text: CV
+  
+      - text: Assignments
+        menu:
+          - href: assign01.qmd
+            text: Assignment 1
+
     right:
       - icon: github
         href: https://github.com/AIDACPL
@@ -24,9 +34,7 @@ website:
 format:
   html:
     theme:
-      - journal # try: flatly, litera, journal, darkly
+      - journal
       - brand
     css: styles.css
-    toc: true
-
-
+    toc: false
