@@ -19,5 +19,26 @@
     "title": "Aida Camacho Ponce de Leon",
     "section": "",
     "text": "I am a graduate student in Social Data Analytics and Research at the University of Texas at Dallas. I am interested in using data, spatial analysis, and computational methods to understand how environmental and technological changes shape cities and everyday life.\nMy work sits at the intersection of data science, GIS, environmental sustainability, and social inequality."
+  },
+  {
+    "objectID": "research.html",
+    "href": "research.html",
+    "title": "Research",
+    "section": "",
+    "text": "Energy and environmental inequality\nCities and urban systems\nGIS and spatial analysis\nData science for social research\nClimate change and energy systems"
+  },
+  {
+    "objectID": "research.html#interests",
+    "href": "research.html#interests",
+    "title": "Research",
+    "section": "",
+    "text": "Energy and environmental inequality\nCities and urban systems\nGIS and spatial analysis\nData science for social research\nClimate change and energy systems"
+  },
+  {
+    "objectID": "research.html#selected-work",
+    "href": "research.html#selected-work",
+    "title": "Research",
+    "section": "Selected Work",
+    "text": "Selected Work\n\nEnergy Inequality in Mexico\nA spatial analysis of household electricity consumption and energy burden, examining how income, housing characteristics, and climate shape access to energy.\nMethods: GIS · statistical modeling · household survey data\n\n\nClimate Change and the Future of Cities\nResearch examining how changing temperatures affect energy demand, renewable energy systems, and household energy burden.\nMethods: literature synthesis · spatial analysis · data visualization\n\n\nData & Social Research\nProjects applying computational and statistical methods to questions about people, places, and environmental systems.\nMethods: Python · R · GIS · machine learning"
   }
 ]

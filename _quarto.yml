@@ -1,8 +1,6 @@
 project:
   type: website
   output-dir: docs
-  resources:
-    profile.jpg
 
 website:
   title: "Aida Camacho Ponce de Leon"
