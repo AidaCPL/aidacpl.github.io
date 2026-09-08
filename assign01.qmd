@@ -15,4 +15,4 @@ I chose to keep the navigation relatively minimal because the website is intende
 
 Finally, I used GitHub to host and publish the website. Using Quarto allows the same project to combine written content, code, data visualizations, and other forms of analytical work in one location. This makes the website useful not only as a personal profile but also as a portfolio that can document how I use computational and data-oriented methods to study social and environmental questions.
 
----
+------------------------------------------------------------------------
