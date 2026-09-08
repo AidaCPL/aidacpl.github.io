@@ -1,7 +1,8 @@
 project:
   type: website
   output-dir: docs
-
+  resources:
+      - "cv1.pdf"
 website:
   title: "Aida Camacho Ponce de Leon"
   description: "Research, data, cities, energy, and the environment"
