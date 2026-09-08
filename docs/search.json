@@ -1,38 +1,10 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
-  },
-  {
     "objectID": "assign01.html",
     "href": "assign01.html",
     "title": "Assignment 1",
     "section": "",
     "text": "Website Design Note\nThis website was created using RStudio and Quarto and published through GitHub Pages. I designed the site as a personal academic and professional portfolio that brings together my interests in data, cities, energy, and the environment. Rather than treating the website only as a repository for assignments, I wanted the design to communicate the type of work I am interested in while remaining simple and easy to navigate.\nI used the Quarto HTML website format with the Journal theme as a starting point and customized the appearance using a separate CSS stylesheet. I chose a warm off-white background instead of a completely white page because it creates a softer and less institutional appearance. I paired this background with a muted dark-green color for the navigation bar and accent elements. The green was chosen to subtly reflect my interests in environmental sustainability while maintaining a professional appearance. Rounded cards, borders, and small hover effects provide visual structure without making the site feel overly decorative.\nThe navigation bar is organized around four main areas: Home, Research, Teaching, and CV. The Home page provides an introduction to my interests and background, while the Research and Teaching pages organize my academic and professional work. The CV is included directly in the navigation bar so that it can be accessed easily by visitors who are interested in my education, experience, and skills. I also created an Assignments dropdown menu, which contains this Assignment 1 design note and can be expanded as additional coursework is added to the website.\nI chose to keep the navigation relatively minimal because the website is intended to be useful to several types of visitors, including instructors, classmates, potential collaborators, and future employers. The structure allows visitors to quickly locate information without having to navigate through multiple layers of pages. I also used consistent typography, spacing, colors, and link styles throughout the site to create a coherent visual identity across pages.\nFinally, I used GitHub to host and publish the website. Using Quarto allows the same project to combine written content, code, data visualizations, and other forms of analytical work in one location. This makes the website useful not only as a personal profile but also as a portfolio that can document how I use computational and data-oriented methods to study social and environmental questions."
-  },
-  {
-    "objectID": "research.html",
-    "href": "research.html",
-    "title": "Research",
-    "section": "",
-    "text": "Energy and environmental inequality\nCities and urban systems\nGIS and spatial analysis\nData science for social research\nClimate change and energy systems"
-  },
-  {
-    "objectID": "research.html#working-papers",
-    "href": "research.html#working-papers",
-    "title": "Research",
-    "section": "",
-    "text": "Currently I don’t have any papers in progress."
-  },
-  {
-    "objectID": "research.html#publications",
-    "href": "research.html#publications",
-    "title": "Research",
-    "section": "Publications",
-    "text": "Publications\nNo available publications."
   },
   {
     "objectID": "index.html",
@@ -42,52 +14,10 @@
     "text": "I am a graduate student in Social Data Analytics and Research at the University of Texas at Dallas. I am interested in using data, spatial analysis, and computational methods to understand how environmental and technological changes shape cities and everyday life.\nMy work sits at the intersection of data science, GIS, environmental sustainability, and social inequality."
   },
   {
-    "objectID": "index.html#research-interests",
-    "href": "index.html#research-interests",
-    "title": "Aida Camacho Ponce de Leon",
-    "section": "Research Interests",
-    "text": "Research Interests\n\nEnergy and environmental inequality\nCities and urban systems\nGIS and spatial analysis\nData science for social research\nClimate change and energy systems"
-  },
-  {
-    "objectID": "index.html#selected-work",
-    "href": "index.html#selected-work",
-    "title": "Aida Camacho Ponce de Leon",
-    "section": "Selected Work",
-    "text": "Selected Work\n\nEnergy Inequality in Mexico\nA spatial analysis of household electricity consumption and energy burden, examining how income, housing characteristics, and climate shape access to energy.\nMethods: GIS · statistical modeling · household survey data\n\n\nClimate Change and the Future of Cities\nResearch examining how changing temperatures affect energy demand, renewable energy systems, and household energy burden.\nMethods: literature synthesis · spatial analysis · data visualization\n\n\nData & Social Research\nProjects applying computational and statistical methods to questions about people, places, and environmental systems.\nMethods: Python · R · GIS · machine learning"
-  },
-  {
-    "objectID": "research.html#research-interests",
-    "href": "research.html#research-interests",
-    "title": "Research",
-    "section": "",
-    "text": "Energy and environmental inequality\nCities and urban systems\nGIS and spatial analysis\nData science for social research\nClimate change and energy systems"
-  },
-  {
-    "objectID": "research.html#selected-work",
-    "href": "research.html#selected-work",
-    "title": "Research",
-    "section": "Selected Work",
-    "text": "Selected Work\n\nEnergy Inequality in Mexico\nA spatial analysis of household electricity consumption and energy burden, examining how income, housing characteristics, and climate shape access to energy.\nMethods: GIS · statistical modeling · household survey data\n\n\nClimate Change and the Future of Cities\nResearch examining how changing temperatures affect energy demand, renewable energy systems, and household energy burden.\nMethods: literature synthesis · spatial analysis · data visualization\n\n\nData & Social Research\nProjects applying computational and statistical methods to questions about people, places, and environmental systems.\nMethods: Python · R · GIS · machine learning"
-  },
-  {
-    "objectID": "research.html#methods-python-r-gis-machine-learning",
-    "href": "research.html#methods-python-r-gis-machine-learning",
-    "title": "Research",
-    "section": "Methods: Python · R · GIS · machine learning",
-    "text": "Methods: Python · R · GIS · machine learning"
-  },
-  {
     "objectID": "index.html#social-data-analytics-cities-energy-environment",
     "href": "index.html#social-data-analytics-cities-energy-environment",
     "title": "Aida Camacho Ponce de Leon",
     "section": "",
     "text": "I am a graduate student in Social Data Analytics and Research at the University of Texas at Dallas. I am interested in using data, spatial analysis, and computational methods to understand how environmental and technological changes shape cities and everyday life.\nMy work sits at the intersection of data science, GIS, environmental sustainability, and social inequality."
-  },
-  {
-    "objectID": "research.html#interests",
-    "href": "research.html#interests",
-    "title": "Research",
-    "section": "",
-    "text": "Energy and environmental inequality\nCities and urban systems\nGIS and spatial analysis\nData science for social research\nClimate change and energy systems"
   }
 ]
