@@ -40,5 +40,12 @@
     "title": "Research",
     "section": "Selected Work",
     "text": "Selected Work\n\nEnergy Inequality in Mexico\nA spatial analysis of household electricity consumption and energy burden, examining how income, housing characteristics, and climate shape access to energy.\nMethods: GIS · statistical modeling · household survey data\n\n\nClimate Change and the Future of Cities\nResearch examining how changing temperatures affect energy demand, renewable energy systems, and household energy burden.\nMethods: literature synthesis · spatial analysis · data visualization\n\n\nData & Social Research\nProjects applying computational and statistical methods to questions about people, places, and environmental systems.\nMethods: Python · R · GIS · machine learning"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
   }
 ]

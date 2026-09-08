@@ -17,7 +17,7 @@ website:
       - href: teaching.qmd
         text: Teaching
   
-      - href: cv.pdf
+      - href: CV.pdf
         text: CV
   
       - text: Assignments
