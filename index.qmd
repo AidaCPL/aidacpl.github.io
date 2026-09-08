@@ -1,6 +1,6 @@
 ---
 title: "Aida Camacho Ponce de Leon"
-image: profile.JPG
+image: profile.jpeg
 about:
   template: trestles   # or: trestles, jolla, solana, marquee, column
   image-shape: round
