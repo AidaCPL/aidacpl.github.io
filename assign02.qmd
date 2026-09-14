@@ -3,7 +3,7 @@ title: "Assignment 2"
 editor: visual
 ---
 
-## **1. Query parameters** 
+## **1. Query parameters**
 
 These include search terms, geography, time window, category, search type (web / news / images / YouTube), and the date and time I pulled it for reproducibility.
 
@@ -55,7 +55,7 @@ Trump, Kamala Harris and Election
 
 ## 3. R Code
 
-``` R
+``` r
 ## EPPS 6302 Methods of Data Collection and Production
 ## Google Trends with R
 
@@ -139,7 +139,6 @@ TrumpHarrisElection_year <- gtrends(c('Trump', 'Harris', 'election'),
 df6 <- TrumpHarrisElection_year$interest_over_time
 View(df6)
 write_csv(df6, paste0("gtrends_us_12m_", Sys.Date(), ".csv"))
-
 ```
 
 Observations: Using google trends in R, the df is composed of the following: `date`, `hits`, `keyword`, `geo`, `time`, `gprop`, `category`.
@@ -148,7 +147,7 @@ Downloading data straight from the google trends website gives:  time/date, ter
 
 The different imformation is time, gprop and category. Although some of this info is saved in the file name of the CSV but not on the dataset itself.
 
-### Results 
+### Results
 
 ![Figure 1. Google Trends search interest for “Trump,” “Harris,” and “election” in the United States over the past five years.](images/TumpHarrisElection_US_5y_plot.png){fig-align="center"}
 
@@ -162,11 +161,9 @@ The different imformation is time, gprop and category. Although some of this inf
 
 **Difference between web search and script Harris:**
 
-+---------------+---------------+-----------+----------------+------------+----------------+
-|               |               |           |                |            |                |
-+:=============:+:=============:+:=========:+:==============:+:==========:+:==============:+
+|  |  |  |  |  |  |
+|:--:|:--:|:--:|:--:|:--:|:--:|
 | Kamala Harris | United States | Past Year | All Categories | Web Search | September 2026 |
-+---------------+---------------+-----------+----------------+------------+----------------+
 
 - Web search interval is monthly (61 entries) records every 01 of the month, script interval is weekly (262 entries per term) records start september 12.
 
