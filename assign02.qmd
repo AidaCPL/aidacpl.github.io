@@ -178,11 +178,11 @@ The gap tells us that a search term is not necessarily the same as the concept w
 
 ## 4. Method Comparison
 
-- *Are the numbers identical? If not, by how much, and in which direction?*
+**Are the numbers identical? If not, by how much, and in which direction?**
 
 The numbers are not identical, although the two series are very similar. I changed the time range from the past five years to the past 12 months for both methods so that both the Google Trends website and the R script produced weekly observations on the same dates. This makes it possible to compare the values directly. For example, for “Trump” on September 14, 2025, the website shows 44 while the R script shows 42, a difference of 2 points, with the R value lower. On October 19, 2025, the website shows 48 while R shows 51, so the R value is 3 points higher. Some observations are identical, such as “election” on November 2, 2025, when both show 100. Overall, the differences are relatively small and can occur in either direction.
 
-- *What are the differences between the two methods?*
+**What are the differences between the two methods?**
 
 1.  **Reproducibility**: Neither method guarantees that someone else could regenerate my file exactly. The website file includes the retrieval date in its filename, but I had to create a separate table to record the query settings so that I could repeat the search. The R method is more reproducible in terms of the query itself because the dataframe records the keyword, geographic location, time period, search property, and category. However, it does not record the date and time when the data were retrieved. Since Google Trends data can change between pulls, the retrieval date and time would also be useful for reproducing the exact file.
 
