@@ -22,6 +22,8 @@ website:
         menu:
           - href: assign01.qmd
             text: Assignment 1
+          - href: assign02.qmd
+            text: Assignment 2
 
     right:
       - icon: github
