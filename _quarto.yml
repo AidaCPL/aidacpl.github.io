@@ -24,6 +24,8 @@ website:
             text: Assignment 1
           - href: assign02.qmd
             text: Assignment 2
+          - href: assignment03.qmd
+            text: Assignment 3
 
     right:
       - icon: github

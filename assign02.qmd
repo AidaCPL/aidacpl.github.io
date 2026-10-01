@@ -161,11 +161,9 @@ The different imformation is time, gprop and category. Although some of this inf
 
 **Difference between web search and script Harris:**
 
-+---------------+---------------+-----------+----------------+------------+----------------+
-|               |               |           |                |            |                |
-+:=============:+:=============:+:=========:+:==============:+:==========:+:==============:+
+|  |  |  |  |  |  |
+|:--:|:--:|:--:|:--:|:--:|:--:|
 | Kamala Harris | United States | Past Year | All Categories | Web Search | September 2026 |
-+---------------+---------------+-----------+----------------+------------+----------------+
 
 - Web search interval is monthly (61 entries) records every 01 of the month, script interval is weekly (262 entries) records start September 12.
 
