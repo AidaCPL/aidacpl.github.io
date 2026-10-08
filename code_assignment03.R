@@ -149,7 +149,7 @@ acs_wide <- acs_wide |>
 
 
 # 6) Map (edit titles/theme)
-ggplot(acs_wide) +
+rent_burden_map <- ggplot(acs_wide) +
   geom_sf(
     aes(fill = burden_pct),
     color = "white",
@@ -205,6 +205,13 @@ ggplot(acs_wide) +
     
     plot.margin = margin(15, 15, 15, 15)
   )
+ggsave(
+  "texas_rent_burden_map.png",
+  plot = rent_burden_map,
+  width = 10,
+  height = 6.5,
+  dpi = 300
+)
 
 # 7) Table (top/bottom by poverty rate, with MOE)
 top10 <- acs_wide |>
@@ -251,4 +258,50 @@ uncertainty_check
 # 8) Save outputs
 write_csv(st_drop_geometry(acs_wide),
           paste0("acs_", state_abbr, "_", year_acs, ".csv"))
+
+
+# 10) Table — top and bottom 10 counties by median household income
+
+top10 <- acs_wide |>
+  st_drop_geometry() |>
+  arrange(desc(incomeE)) |>
+  transmute(
+    Group = "Top 10",
+    County = NAME,
+    `Median household income` = incomeE,
+    `Income MOE` = incomeM,
+    `Rent burden (%)` = burden_pct,
+    `MOE (%)` = burden_moe_pct
+  ) |>
+  slice_head(n = 10)
+
+bottom10 <- acs_wide |>
+  st_drop_geometry() |>
+  arrange(incomeE) |>
+  transmute(
+    Group = "Bottom 10",
+    County = NAME,
+    `Median household income` = incomeE,
+    `Income MOE` = incomeM,
+    `Rent burden (%)` = burden_pct,
+    `MOE (%)` = burden_moe_pct
+  ) |>
+  slice_head(n = 10)
+
+income_table <- bind_rows(top10, bottom10) |>
+  mutate(
+    `Median household income` =
+      paste0("$", format(round(`Median household income`), big.mark = ",")),
+    `Income MOE` =
+      paste0("±$", format(round(`Income MOE`), big.mark = ",")),
+    `Rent burden (%)` =
+      round(`Rent burden (%)`, 1),
+    `MOE (%)` =
+      round(`MOE (%)`, 1)
+  )
+
+knitr::kable(
+  income_table,
+  caption = "Texas Counties with the Highest and Lowest Median Household Incomes"
+)
 

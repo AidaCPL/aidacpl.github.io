@@ -275,7 +275,7 @@ rent_burden_map <- ggplot(acs_wide) +
 
 ![](texas_rent_burden_map.png){fig-align="center"}
 
-## 10. Table 
+## 10. Table
 
 ## a) Highest-Income Counties
 

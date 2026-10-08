@@ -1,0 +1,492 @@
+---
+title: "Assignment 4: Webscraping 1"
+editor: visual
+---
+
+This assignment explores web data collection using `rvest`, from a simple scraping sandbox to a Wikipedia table and a comparison with a structured World Bank data source. The final section applies these methods to a research plan on teacher shortages in North Texas.
+
+::: callout-note
+### What this assignment covers
+
+1.  Checking permission before making a web request
+2.  Scraping and combining data from multiple pages
+3.  Cleaning a real-world HTML table
+4.  Comparing scraped data with an API
+5.  Designing a responsible web data collection plan
+:::
+
+## 0. Permission Check
+
+Before scraping Wikipedia, I checked whether the page could be accessed according to its `robots.txt` rules using `robotstxt::paths_allowed()`.
+
+```{r}
+library(rvest)
+library(dplyr)
+library(stringr)
+library(readr)
+library(tidyr)
+library(polite)
+library(janitor)
+library(WDI)
+```
+
+```{r}
+robotstxt::paths_allowed(
+  "https://en.wikipedia.org/wiki/List_of_countries_by_foreign-exchange_reserves")
+```
+
+The requested path was permitted, so I proceeded with the Wikipedia request.
+
+## 1. Warm-Up: Books to Scrape
+
+I first practiced the scraping workflow on Books to Scrape, a sandbox website specifically designed for practicing web scraping. Because the site is static and contains no JavaScript requirement, it provides a low-risk environment for learning the basic `rvest` functions.
+
+### 1a. Scraping One Page
+
+```{r}
+books_pg <- read_html("https://books.toscrape.com/catalogue/page-1.html")
+
+books <- tibble(
+  title  = books_pg |> html_elements("article.product_pod h3 a") |> html_attr("title"),
+  price  = books_pg |> html_elements("article.product_pod p.price_color") |> html_text2(),
+  rating = books_pg |> html_elements("article.product_pod p.star-rating") |>
+    html_attr("class") |> str_remove("star-rating ")
+) |>
+  mutate(price_gbp = parse_number(price))
+
+head(books)
+```
+
+This extracts the book title, price, and rating from each product card. The price is also converted from text to a numeric variable for later analysis.
+
+### 1b. Scraping Five Pages
+
+After testing the extraction on one page, I turned it into a function so that the same process could be applied to five pages.
+
+```{r}
+scrape_books_page <- function(page) {
+  
+  url <- paste0(
+    "https://books.toscrape.com/catalogue/page-",
+    page,
+    ".html"
+  )
+  
+  pg <- read_html(url)
+  
+  tibble(
+    title = pg |>
+      html_elements("article.product_pod h3 a") |>
+      html_attr("title"),
+    
+    price = pg |>
+      html_elements("article.product_pod p.price_color") |>
+      html_text2(),
+    
+    rating = pg |>
+      html_elements("article.product_pod p.star-rating") |>
+      html_attr("class") |>
+      str_remove("star-rating ")
+  ) |>
+    mutate(
+      price_gbp = parse_number(price),
+      page = page
+    )
+}
+# 5 variables: title, price, rating, price_gbp, page
+
+books_5pages <- lapply(1:5, scrape_books_page) |>
+  bind_rows()
+
+glimpse(books_5pages)
+```
+
+## 2. Scraping the Wikipedia Table
+
+### 2a. Foreign-Exchange Reserves
+
+I next applied the same `rvest` workflow to Wikipedia's table of foreign-exchange reserves. Unlike the Books to Scrape sandbox, this was a real-world table with a more complicated structure.
+
+```{r}
+wiki_url <- paste0("https://en.wikipedia.org/wiki/",
+                   "List_of_countries_by_foreign-exchange_reserves")
+
+wiki_pg <- read_html(wiki_url)
+
+## Never assume the table you want is [[1]]. Look first.
+tabs <- wiki_pg |> html_elements("table.wikitable")
+length(tabs)                      # how many candidates? --> 2
+tabs |> html_table() |> lapply(\(x) dim(x))
+
+reserves_raw <- tabs[[1]] |> html_table()
+glimpse(reserves_raw)
+
+```
+
+```{r}
+reserves <- reserves_raw |>
+  janitor::clean_names() |>
+  mutate(
+    across(
+      where(is.character),
+      ~ .x |>
+        str_remove_all("\\[.*?\\]") |>
+        str_squish()
+    )
+  ) |>
+  filter(
+    !str_detect(
+      country_as_recognized_by_the_un,
+      regex("total|world", ignore_case = TRUE)
+    )
+  )
+reserves <- reserves[-c(1, 2), ]
+glimpse(reserves)
+```
+
+```{r}
+reserves <- reserves |>
+  select(
+    country_as_recognized_by_the_un,
+    continent,
+    foreign_exchange_reserves,
+    last_reporteddate
+  )
+reserves <- reserves |>
+  mutate(
+    foreign_exchange_reserves = parse_number(foreign_exchange_reserves)
+  )
+head(reserves)
+```
+
+### 2b. A Second Wikipedia Table
+
+To test whether the same code would work on a different table, I used the FIFA World Cup results table from Wikipedia.
+
+```{r}
+fifa_url <- "https://en.wikipedia.org/wiki/FIFA_World_Cup"
+fifa_pg <- read_html(fifa_url)
+fifa_tabs <- fifa_pg |>
+  html_elements("table.wikitable")
+
+length(fifa_tabs)
+
+fifa_tabs |>
+  html_table() |>
+  lapply(\(x) dim(x))
+
+tabs |> html_table() |> lapply(\(x) dim(x))
+
+lapply(fifa_tabs, head)
+
+fifa_results_raw <- fifa_tabs[[7]] |>
+  html_table()
+glimpse(fifa_results_raw)
+head(fifa_results_raw, 10)
+
+#fifa_results_raw |>
+  #janitor::clean_names() |>
+ # filter(
+  #  !str_detect(
+  #    country_as_recognized_by_the_un,
+  #    regex("total|world", ignore_case = TRUE) ) ) 
+```
+
+The scraping step itself still worked, but the cleaning code from the foreign-exchange table did not transfer directly. The FX table contained columns such as `country_as_recognized_by_the_un` and a two-row header, while the FIFA table had columns such as `world_cup`, `golden_ball`, and `golden_boot`. Therefore, cleaning commands that referenced the FX-specific columns could not be reused unchanged.
+
+::: callout-warning
+### What broke?
+
+The extraction worked, but the cleaning code was tied to the structure of the original table. The FIFA table had different column names and did not contain the same multi-row header or Total/World rows. This showed that scraping code is often dependent on the specific structure of a webpage.
+:::
+
+### 2c. Cleaning Data
+
+```{r}
+fifa_results <- fifa_results_raw |>
+  janitor::clean_names()
+
+fifa_results <- fifa_results |>
+  mutate(
+    year = readr::parse_number(world_cup)
+  )
+fifa_results <- fifa_results |>
+  mutate(
+    across(
+      where(is.character),
+      ~ .x |>
+        str_remove_all("\\[.*?\\]") |>
+        str_squish()
+    )
+  )
+
+fifa_results <- fifa_results |>
+  mutate(
+    across(
+      where(is.character),
+      ~ .x |>
+        str_remove_all("\\[.*?\\]") |>
+        str_squish()
+    )
+  )
+
+head(fifa_results)
+```
+
+## 3. Now Do It the Right Way
+
+Wikipedia was useful for practicing scraping, but the same information is available through a structured World Bank indicator. This provides an opportunity to compare a scraped source with an API-based source.
+
+### 3a. World Bank API
+
+```{r}
+library(WDI)
+
+reserves_api <- WDI(
+  indicator = "FI.RES.TOTL.CD",
+  start = 2015,
+  end = 2026,
+  extra = TRUE
+)
+
+head(reserves_api)
+```
+
+`FI.RES.TOTL.CD` measures total reserves, including gold, in current U.S. dollars.
+
+### 3b. Comparison
+
+```{r}
+library(lubridate)
+
+# Convert Wikipedia's reporting date from character to Date
+reserves_compare <- reserves |>
+  mutate(
+    last_reporteddate = dmy(last_reporteddate),
+    
+    # Wikipedia reports reserves in US$ million,
+    # so convert to current US dollars
+    wiki_reserves_usd = foreign_exchange_reserves * 1000000,
+    
+    # Extract the year from the reporting date
+    wiki_year = year(last_reporteddate)
+  ) |>
+  select(
+    country = country_as_recognized_by_the_un,
+    last_reporteddate,
+    wiki_year,
+    wiki_reserves_usd
+  )
+
+head(reserves_compare)
+```
+
+```{r}
+## Match each country to the World Bank value for the same year ---------------
+
+reserves_comparison <- reserves_compare |>
+  left_join(
+    reserves_api |>
+      select(
+        country,
+        year,
+        world_bank_reserves_usd = FI.RES.TOTL.CD,
+        world_bank_last_updated = lastupdated
+      ),
+    by = c("country" = "country", "wiki_year" = "year")
+  ) |>
+  mutate(
+    difference_usd = wiki_reserves_usd - world_bank_reserves_usd,
+    difference_percent =
+      (difference_usd / world_bank_reserves_usd) * 100
+  ) |>
+  arrange(desc(abs(difference_usd)))
+```
+
+```{r}
+##View the comparison table ---------------------------------------------------
+
+reserves_comparison <- reserves_compare |>
+  left_join(
+    reserves_api |>
+      select(
+        country,
+        wb_year = year,
+        world_bank_reserves_usd = FI.RES.TOTL.CD,
+        world_bank_last_updated = lastupdated
+      ),
+    by = c("country" = "country", "wiki_year" = "wb_year")
+  ) |>
+  mutate(
+    difference_usd = wiki_reserves_usd - world_bank_reserves_usd,
+    difference_percent =
+      (difference_usd / world_bank_reserves_usd) * 100
+  ) |>
+  select(
+    country,
+    wiki_date = last_reporteddate,
+    wiki_year,
+    wiki_reserves_usd,
+    world_bank_reserves_usd,
+    world_bank_last_updated,
+    difference_usd,
+    difference_percent
+  ) |>
+  arrange(desc(abs(difference_percent)))
+```
+
+```{r}
+reserves_comparison |>
+  select(
+    country,
+    wiki_date,
+    wiki_year,
+    wiki_reserves_usd,
+    world_bank_reserves_usd,
+    difference_usd,
+    difference_percent
+  ) |>
+  head(20) |>
+  mutate(
+    wiki_reserves_usd = scales::comma(wiki_reserves_usd),
+    world_bank_reserves_usd = scales::comma(world_bank_reserves_usd),
+    difference_usd = scales::comma(difference_usd),
+    difference_percent = paste0(round(difference_percent, 1), "%")
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Country",
+      "Wikipedia Date",
+      "Year",
+      "Wikipedia Reserves (US$)",
+      "World Bank Reserves (US$)",
+      "Difference (US$)",
+      "Difference (%)"
+    ),
+    caption = "Comparison of Foreign-Exchange Reserves"
+  )
+```
+
+#### Findings:
+
+The two sources do not always report the same values for the same country and calendar year. The differences appear particularly large for some countries, showing that matching only by country and year does not necessarily mean that the two sources represent the same reporting vintage.
+
+For example, Wikipedia reports U.S. reserves of approximately \$253.8 billion with a reporting date of August 22, 2025, while the World Bank dataset reports approximately \$1.39 trillion for 2025 and was updated in July 2026. This illustrates why the reporting date and dataset vintage matter when comparing values from different sources.
+
+```{r}
+reserves_compare |>
+  filter(country == "United States")
+
+reserves_api |>
+  filter(country == "United States") |>
+  select(country, year, FI.RES.TOTL.CD, lastupdated)
+```
+
+### 3c. When is scraping the right tool?
+
+Scraping is the right tool when the information you need is publicly available online but there is no suitable API, downloadable dataset, or other structured way to access it. It should be used when it is the only practical way to obtain the data, while respecting the website's robots.txt, terms of service, and limits on requests.
+
+::: callout-note
+### Main lesson
+
+\- Wikipedia: edited by volunteers, sourced from many places, no schema,
+
+no versioning, no uncertainty, changes without notice
+
+\- World Bank: one compiler, documented methodology, stable indicator code
+
+Scraping was the wrong tool here. Knowing when it is the *only* tool is the
+
+skill this course is actually teaching.
+:::
+
+## 4. Data Plan: Measuring Teacher Shortages in Dallas County ISDs
+
+### Research Question
+
+> *Do administrative workforce indicators and online teacher vacancy records identify similar staffing challenges across public school districts in Dallas County?*
+
+This project will compare standardized administrative workforce indicators from the Texas Education Agency (TEA) with independently collected teacher vacancy records from district recruitment websites. The goal is to examine whether different approaches to measuring teacher shortages produce similar assessments of district staffing conditions.
+
+### 4a. Data Sources
+
+- **Primary unit of analysis:** Independent school district (ISD)
+
+- **Raw web observation:** Individual job posting
+
+- **Study area:** Dallas County
+
+| Source | What I would collect | Why use it? |
+|------------------------|------------------------|------------------------|
+| Texas Education Agency | Teacher attrition, retention, employment, certification, enrollment, and other workforce indicators | Standardized administrative data across Texas districts |
+| District recruitment websites | Job title, subject/position, posting date, district | Direct measure of positions districts are actively advertising |
+| NCES | Contextual information such as teacher workforce and compensation | Additional context if needed |
+| Texas Schools Project | Additional education data if needed | Potential supplemental source |
+
+TEA provides standardized administrative measures of the teacher workforce, making it useful for comparing districts. District job postings measure a different aspect of staffing conditions: positions that districts are actively seeking to fill. Comparing these sources allows the project to examine whether administrative indicators and vacancy data tell the same story.
+
+::: callout-tip
+### Why use two measures?
+
+**Administrative data:** What happened to the teacher workforce?
+
+**Vacancy data:** What positions are districts currently trying to fill?
+
+The comparison is the main research contribution of the data collection strategy.
+:::
+
+### 4b. robots.txt and Terms of Service
+
+We will check each recruitment site's `robots.txt` file before collecting data and will review the Terms of Service where available. We will only automate collection from publicly accessible pages when the relevant path is permitted, and we will not bypass access restrictions, authentication, or other technical protections.
+
+Our initial checks show that several district sites permit access to their public job-listing pages, while Highland Park ISD's recruitment site currently disallows scraping. Sites with unclear or timed-out `robots.txt` checks will be verified before collection. If automated scraping is not permitted, we will exclude the site from automated collection or use manual collection if allowed.
+
+| District | Recruitment platform | Site type | robots.txt / access |
+|---------------|---------------|---------------|--------------------------|
+| Irving ISD | SchoolSpring | Dynamic | Path allowed |
+| Dallas ISD | Taleo | Dynamic | `paths_allowed()` returned TRUE |
+| Plano ISD | Applitrack | Dynamic | Relevant paths appear permitted |
+| Richardson ISD | Applitrack | Dynamic | Relevant paths appear permitted |
+| Highland Park ISD | TX Ed Job Network | Dynamic | Scraping disallowed |
+| Carrollton-Farmers Branch ISD | Applitrack | Dynamic | To be checked |
+| Cedar Hill ISD | District/Skyward-style system | TBD | Requires further inspection |
+| Coppell ISD | Winocular | Dynamic | Path allowed |
+| DeSoto ISD | Teams | Dynamic | Path allowed |
+| Duncanville ISD | Skyward | Dynamic | robots.txt retrieval worked; path check timed out |
+| Garland ISD | Applitrack | Dynamic | robots.txt retrieval worked; path check had an error |
+| Grand Prairie ISD | Skyward | Dynamic | robots.txt retrieval worked; path check timed out |
+| Lancaster ISD | Applitrack | Dynamic | robots.txt retrieval worked; path check had an error |
+| Mesquite ISD | Applitrack | Dynamic | To be checked |
+| Sunnyvale ISD | Applitrack | Dynamic | URL/platform needs verification |
+
+Highland Park ISD is currently not suitable for automated scraping because the recruitment site's robots.txt disallows scraping. I would exclude it from automated collection rather than attempt to bypass the restriction.
+
+### 4c. Whether an API exists
+
+##### TEA
+
+TEA data will be collected through available administrative datasets or structured dashboard data rather than scraped from the website.
+
+##### District vacancies
+
+The district recruitment systems do not share one common API because districts use different vendors and platforms. Where a suitable API or downloadable dataset is unavailable, permitted public vacancy pages may be collected through automated or manual methods, such as scraping, depending on the site's structure. However, more research is being done for the most ethical way of obtaining the sites' information.
+
+### 4d. Volume, rate limiting, and cache
+
+The project will collect a relatively small number of district vacancy pages rather than continuously crawling entire websites. Requests will be rate-limited and spaced out, and previously collected pages and extracted records will be stored locally so that pages do not need to be repeatedly requested. Each observation will include a retrieval date to distinguish the collection date from the original job posting date.
+
+I will initially test the method on a small subset of districts before scaling it to the full study area.
+
+### 4e. What breaks when the page changes
+
+| Potential change | What could happen | How I would detect it |
+|------------------------|------------------------|------------------------|
+| HTML structure changes | Scraper returns empty or incomplete data | Check number of records and expected columns |
+| Recruitment platform changes | URL or selectors stop working | Test each district before collection |
+| Job fields change | Posting date/title no longer extracted | Validate expected fields |
+| Site becomes more dynamic | `read_html()` no longer captures listings | Compare rendered page with extracted HTML |
+| Robots.txt changes | Automated collection may no longer be permitted | Re-check robots.txt before collection |
+| Old postings disappear | Historical vacancy counts become incomplete | Record retrieval date and archive collected results |
+
+Unexpected changes in the number of records or missing expected fields would trigger manual inspection rather than allowing the scraper to silently produce an incomplete dataset.
