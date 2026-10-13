@@ -418,7 +418,7 @@ This project will compare standardized administrative workforce indicators from 
 - **Study area:** Dallas County
 
 | Source | What I would collect | Why use it? |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | Texas Education Agency | Teacher attrition, retention, employment, certification, enrollment, and other workforce indicators | Standardized administrative data across Texas districts |
 | District recruitment websites | Job title, subject/position, posting date, district | Direct measure of positions districts are actively advertising |
 | NCES | Contextual information such as teacher workforce and compensation | Additional context if needed |
@@ -443,7 +443,7 @@ We will check each recruitment site's `robots.txt` file before collecting data a
 Our initial checks show that several district sites permit access to their public job-listing pages, while Highland Park ISD's recruitment site currently disallows scraping. Sites with unclear or timed-out `robots.txt` checks will be verified before collection. If automated scraping is not permitted, we will exclude the site from automated collection or use manual collection if allowed.
 
 | District | Recruitment platform | Site type | robots.txt / access |
-|---------------|---------------|---------------|--------------------------|
+|----|----|----|----|
 | Irving ISD | SchoolSpring | Dynamic | Path allowed |
 | Dallas ISD | Taleo | Dynamic | `paths_allowed()` returned TRUE |
 | Plano ISD | Applitrack | Dynamic | Relevant paths appear permitted |
@@ -481,7 +481,7 @@ I will initially test the method on a small subset of districts before scaling i
 ### 4e. What breaks when the page changes
 
 | Potential change | What could happen | How I would detect it |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | HTML structure changes | Scraper returns empty or incomplete data | Check number of records and expected columns |
 | Recruitment platform changes | URL or selectors stop working | Test each district before collection |
 | Job fields change | Posting date/title no longer extracted | Validate expected fields |

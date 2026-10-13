@@ -1,0 +1,159 @@
+---
+title: "Workshop Scraping"
+editor: visual
+execute: {eval: false}
+---
+
+```{r}
+chromote::find_chrome()
+```
+
+```{r}
+library(tidyverse); library(rvest); library(polite)
+
+robotstxt::paths_allowed("https://books.toscrape.com/catalogue/")
+session <- bow("https://books.toscrape.com/",
+               user_agent = "EPPS6302 student; dal920987@utdallas.edu",
+               delay = 5)
+session
+```
+
+This site has no robots.txt, so the check returns TRUE. Silence is not consent: you may scrape here because the site says it is a sandbox.
+
+# Block A — the sandbox
+
+```{r}
+parse_books <- function(pg) {
+  pods <- html_elements(pg, "article.product_pod") # 20 books
+  tibble(
+    title = pods |> html_element("h3 a") |> html_attr("title"),
+    price = pods |> html_element(".price_color") |> html_text2(),
+    rating = pods |> html_element(".star-rating") |> html_attr("class"),
+    stock = pods |> html_element(".availability") |> html_text2()
+  )
+}
+pg1 <- nod(session, "catalogue/page-1.html") |> scrape()
+
+books1 <- parse_books(pg1)
+
+books1
+```
+
+html_elements() finds the books; html_element() — singular — returns exactly one value per book, and NA when it is missing. That keeps the columns aligned.
+
+```{r}
+stars <- c("One", "Two", "Three", "Four", "Five")
+clean_books <- function(df) {
+  df |> mutate(
+    price = parse_number(price), # "£51.77" -> 51.77
+    rating = match(str_remove(rating, "star-rating "), stars),
+    in_stock = str_detect(stock, "In stock")
+  ) |> select(-stock)
+}
+clean_books(books1)
+```
+
+```{r}
+get_page <- function(i) {
+  nod(session, paste0("catalogue/page-", i, ".html")) |>
+    scrape() |> parse_books() |> mutate(page = i)
+}
+books_raw <- map(1:5, get_page) |> list_rbind() # waits 5 s a page
+dir.create("data", showWarnings = FALSE)
+write_csv(books_raw, "data/books_raw.csv") # cache the raw pull
+
+books <- clean_books(books_raw)
+```
+
+Checkpoint A. nrow(books) is 100; price and rating are numeric; no NA in title. Then answer in one sentence each: what is the mean price by rating? Which line breaks first if the site is redesigned?
+
+# Block B
+
+```{r}
+count_quotes <- function(url) {
+  read_html(url) |> html_elements(".quote") |> length()
+}
+count_quotes("https://quotes.toscrape.com/")
+count_quotes("https://quotes.toscrape.com/js/")
+```
+
+Ten, then zero. Open /js/ in Chrome and compare View Source with Inspect. Where are the quotes in the source?
+
+```{r}
+library(httr2)
+
+ua <- "EPPS6302 student; dal920987@utdallas.edu"
+
+get_quotes <- function(page) {
+  Sys.sleep(1) # one request a second
+  request("https://quotes.toscrape.com/api/quotes") |>
+    req_url_query(page = page) |>
+    req_user_agent(ua) |>
+    req_retry(max_tries = 3) |>
+    req_perform() |>
+    resp_body_json()
+    }
+j <- get_quotes(1)
+names(j) # has_next, page, quotes, tag, top_ten_tags
+```
+
+```{r}
+rectangle <- function(quote_list) {
+  tibble(q = quote_list) |>
+    unnest_wider(q) |> # author, tags, text
+    hoist(author, author_name = "name", author_slug = "slug") |>
+    mutate(tags = map_chr(tags, 
+                          \(x) paste(unlist(x), collapse = "; "))) |>
+    select(text, author_name, author_slug, tags)
+
+}
+rectangle(j$quotes)
+```
+
+```{r}
+pages <- list(); p <- 1
+repeat {
+  pages[[p]] <- get_quotes(p)
+  if (!pages[[p]]$has_next) break
+  p <- p + 1
+}
+quotes <- map(pages, "quotes") |> list_flatten() |> rectangle()
+write_csv(quotes, "data/quotes.csv")
+```
+
+```{r}
+live <- read_html_live("https://quotes.toscrape.com/js/")
+live |> html_elements(".quote .text") |> html_text2() # ten quotes
+live$view() #wathc the browser
+```
+
+Checkpoint B. nrow(quotes) is 100 from 10 pages. Routes 1 and 2 return the same text for page 1 – which was faster, and which made fewer demands on the server? Which would survive a redesign of the page?
+
+# Block C — if time: an API with a contract
+
+```{r}
+yt <- request("https://www.googleapis.com/youtube/v3/videos") |>
+  req_url_query(part = "snippet,statistics", chart = "mostPopular",
+                regionCode = "US", maxResults = 10,
+                key = Sys.getenv("YOUTUBE_API_KEY")) |>
+  req_perform() |> resp_body_json()
+
+tibble(v = yt$items) |> unnest_wider(v) |>
+  hoist(snippet, title = "title", channel = "channelTitle") |>
+  hoist(statistics, views = "viewCount") |>
+  select(id, title, channel, views)
+```
+
+Same rectangling as B3 — but documented, versioned and metered (1 quota unit).
+
+### Data Note
+
+**Source and date collected:** Books were collected from [Books to Scrape](https://books.toscrape.com/), a sandbox website designed for web scraping, on October 13, 2026. The dataset contains book titles, prices, ratings, and availability information from 50 catalogue pages.
+
+**Permission:** The website's `robots.txt` check returned `TRUE` for the catalogue path. The website is a scraping sandbox, and requests were made using an identified user agent and a five-second delay between requests.
+
+**Method:** The `polite` package was used to access the catalogue pages, and `rvest` extracted the book information using CSS selectors. The scraper collected the 20 books listed on each page.
+
+**Cleaning rules:** Prices were converted from character strings to numeric values using `parse_number()`. Ratings were converted to numeric values from 1 to 5, and availability was recorded as a logical variable indicating whether a book was in stock. The page number was retained to identify each book's source page.
+
+**Known gaps:** The dataset represents the catalogue at the time of collection and may not reflect subsequent changes in prices, stock, or listings. The scraper depends on the website's HTML structure and CSS selectors, which may break if the site is redesigned. The data also does not include information beyond the fields explicitly extracted.

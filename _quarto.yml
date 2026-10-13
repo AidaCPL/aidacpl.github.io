@@ -28,6 +28,8 @@ website:
             text: Assignment 3
           - href: assign04.qmd
             text: Assignment 4
+          - href: workshop_scraping.qmd
+            text: Workshop Scraping
 
     right:
       - icon: github

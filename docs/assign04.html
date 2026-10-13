@@ -464,12 +464,12 @@ $ Ref.                               &lt;chr&gt; "Ref.", "Ref.", "[3]", "[4]", "
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 196
 Columns: 8
-$ country_as_recognized_by_the_un &lt;chr&gt; "China", "Japan", "Switzerland", "Indi…
-$ continent                       &lt;chr&gt; "Asia", "Asia", "Europe", "Asia", "Eur…
+$ country_as_recognized_by_the_un &lt;chr&gt; "China", "Japan", "Switzerland", "Russ…
+$ continent                       &lt;chr&gt; "Asia", "Asia", "Europe", "Europe/Asia…
 $ foreign_exchange_reserves       &lt;chr&gt; "3,854,885", "1,287,470", "939,140", "…
-$ foreign_exchange_reserves_2     &lt;chr&gt; "4,299", "18,400", "13,935", "45,290",…
+$ foreign_exchange_reserves_2     &lt;chr&gt; "4,299", "18,400", "13,935", "5,600", …
 $ foreign_exchange_reserves_3     &lt;chr&gt; "3,504,805", "1,259,248", "932,282", "…
-$ foreign_exchange_reserves_4     &lt;chr&gt; "115,499", "16,230", "24,490", "56,790…
+$ foreign_exchange_reserves_4     &lt;chr&gt; "115,499", "16,230", "24,490", "1,517"…
 $ last_reporteddate               &lt;chr&gt; "1 August 2026", "30 June 2026", "30 J…
 $ ref                             &lt;chr&gt; "", "", "", "", "", "", "", "", "", ""…</code></pre>
 </div>
@@ -494,8 +494,8 @@ $ ref                             &lt;chr&gt; "", "", "", "", "", "", "", "", ""
 1 China                       Asia                     3854885 1 August 2026    
 2 Japan                       Asia                     1287470 30 June 2026     
 3 Switzerland                 Europe                    939140 30 June 2026     
-4 India                       Asia                      785710 04 September 2026
-5 Russia                      Europe/A…                 761200 21 August 2026   
+4 Russia                      Europe/A…                 761200 21 August 2026   
+5 India                       Asia                      734606 9 October 2026   
 6 Taiwan                      Asia                      597150 30 June 2026     
 # ℹ abbreviated names: ¹​country_as_recognized_by_the_un,
 #   ²​foreign_exchange_reserves</code></pre>
@@ -552,58 +552,58 @@ $ ref                             &lt;chr&gt; "", "", "", "", "", "", "", "", ""
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 [[1]]$node
-&lt;pointer: 0xa38cf5c80&gt;
+&lt;pointer: 0xc2f806700&gt;
 
 [[1]]$doc
-&lt;pointer: 0xa3d5d5680&gt;
+&lt;pointer: 0xc30575680&gt;
 
 
 [[2]]
 [[2]]$node
-&lt;pointer: 0xa38cb0d80&gt;
+&lt;pointer: 0xc2f83d980&gt;
 
 [[2]]$doc
-&lt;pointer: 0xa3d5d5680&gt;
+&lt;pointer: 0xc30575680&gt;
 
 
 [[3]]
 [[3]]$node
-&lt;pointer: 0xa3e47eb00&gt;
+&lt;pointer: 0xc306e9e00&gt;
 
 [[3]]$doc
-&lt;pointer: 0xa3d5d5680&gt;
+&lt;pointer: 0xc30575680&gt;
 
 
 [[4]]
 [[4]]$node
-&lt;pointer: 0xa3e515600&gt;
+&lt;pointer: 0xc30734980&gt;
 
 [[4]]$doc
-&lt;pointer: 0xa3d5d5680&gt;
+&lt;pointer: 0xc30575680&gt;
 
 
 [[5]]
 [[5]]$node
-&lt;pointer: 0xa3e552d00&gt;
+&lt;pointer: 0xc30752180&gt;
 
 [[5]]$doc
-&lt;pointer: 0xa3d5d5680&gt;
+&lt;pointer: 0xc30575680&gt;
 
 
 [[6]]
 [[6]]$node
-&lt;pointer: 0xa3e577500&gt;
+&lt;pointer: 0xc30762e80&gt;
 
 [[6]]$doc
-&lt;pointer: 0xa3d5d5680&gt;
+&lt;pointer: 0xc30575680&gt;
 
 
 [[7]]
 [[7]]$node
-&lt;pointer: 0xa3e819e80&gt;
+&lt;pointer: 0xc3077d900&gt;
 
 [[7]]$doc
-&lt;pointer: 0xa3d5d5680&gt;</code></pre>
+&lt;pointer: 0xc30575680&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>fifa_results_raw <span class="ot">&lt;-</span> fifa_tabs[[<span class="dv">7</span>]] <span class="sc">|&gt;</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
@@ -725,12 +725,12 @@ $ `FIFA Fair Play Trophy`   &lt;chr&gt; "Not Awarded", "Not Awarded", "Not Award
 <span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(reserves_api)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      country iso2c iso3c year FI.RES.TOTL.CD status lastupdated
-1 Afghanistan    AF   AFG 2025             NA         2026-07-13
-2 Afghanistan    AF   AFG 2024             NA         2026-07-13
-3 Afghanistan    AF   AFG 2023             NA         2026-07-13
-4 Afghanistan    AF   AFG 2022             NA         2026-07-13
-5 Afghanistan    AF   AFG 2021             NA         2026-07-13
-6 Afghanistan    AF   AFG 2020     9748946327         2026-07-13
+1 Afghanistan    AF   AFG 2025             NA         2026-10-08
+2 Afghanistan    AF   AFG 2024             NA         2026-10-08
+3 Afghanistan    AF   AFG 2023             NA         2026-10-08
+4 Afghanistan    AF   AFG 2022             NA         2026-10-08
+5 Afghanistan    AF   AFG 2021             NA         2026-10-08
+6 Afghanistan    AF   AFG 2020     9748946327         2026-10-08
                                              region capital longitude latitude
 1 Middle East, North Africa, Afghanistan &amp; Pakistan   Kabul   69.1761  34.5228
 2 Middle East, North Africa, Afghanistan &amp; Pakistan   Kabul   69.1761  34.5228
@@ -794,8 +794,8 @@ Caused by warning:
 1 China       2026-08-01             2026     3854885000000
 2 Japan       2026-06-30             2026     1287470000000
 3 Switzerland 2026-06-30             2026      939140000000
-4 India       2026-09-04             2026      785710000000
-5 Russia      2026-08-21             2026      761200000000
+4 Russia      2026-08-21             2026      761200000000
+5 India       2026-10-09             2026      734606000000
 6 Taiwan      2026-06-30             2026      597150000000</code></pre>
 </div>
 </div>
@@ -1060,6 +1060,15 @@ Caused by warning:
 <td style="text-align: left;">-53.4%</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">Ghana</td>
+<td style="text-align: left;">2024-03-01</td>
+<td style="text-align: right;">2024</td>
+<td style="text-align: left;">3,368,000,000</td>
+<td style="text-align: left;">7,117,343,743</td>
+<td style="text-align: left;">-3,749,343,743</td>
+<td style="text-align: left;">-52.7%</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">Ecuador</td>
 <td style="text-align: left;">2024-03-01</td>
 <td style="text-align: right;">2024</td>
@@ -1067,15 +1076,6 @@ Caused by warning:
 <td style="text-align: left;">6,907,743,955</td>
 <td style="text-align: left;">-3,602,743,955</td>
 <td style="text-align: left;">-52.2%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Botswana</td>
-<td style="text-align: left;">2024-03-01</td>
-<td style="text-align: right;">2024</td>
-<td style="text-align: left;">5,080,000,000</td>
-<td style="text-align: left;">3,455,661,776</td>
-<td style="text-align: left;">1,624,338,224</td>
-<td style="text-align: left;">47%</td>
 </tr>
 </tbody>
 </table>
@@ -1099,17 +1099,17 @@ Caused by warning:
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, year, FI.RES.TOTL.CD, lastupdated)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         country year FI.RES.TOTL.CD lastupdated
-1  United States 2025   1.385447e+12  2026-07-13
-2  United States 2024   9.100365e+11  2026-07-13
-3  United States 2023   7.734262e+11  2026-07-13
-4  United States 2022   7.066442e+11  2026-07-13
-5  United States 2021   7.161523e+11  2026-07-13
-6  United States 2020   6.283697e+11  2026-07-13
-7  United States 2019   5.167006e+11  2026-07-13
-8  United States 2018   4.499071e+11  2026-07-13
-9  United States 2017   4.512853e+11  2026-07-13
-10 United States 2016   4.059424e+11  2026-07-13
-11 United States 2015   3.837285e+11  2026-07-13</code></pre>
+1  United States 2025   1.385447e+12  2026-10-08
+2  United States 2024   9.100365e+11  2026-10-08
+3  United States 2023   7.734262e+11  2026-10-08
+4  United States 2022   7.066442e+11  2026-10-08
+5  United States 2021   7.161523e+11  2026-10-08
+6  United States 2020   6.283697e+11  2026-10-08
+7  United States 2019   5.167006e+11  2026-10-08
+8  United States 2018   4.499071e+11  2026-10-08
+9  United States 2017   4.512853e+11  2026-10-08
+10 United States 2016   4.059424e+11  2026-10-08
+11 United States 2015   3.837285e+11  2026-10-08</code></pre>
 </div>
 </div>
 </section>
@@ -1211,10 +1211,10 @@ Caused by warning:
 <p>Our initial checks show that several district sites permit access to their public job-listing pages, while Highland Park ISD’s recruitment site currently disallows scraping. Sites with unclear or timed-out <code>robots.txt</code> checks will be verified before collection. If automated scraping is not permitted, we will exclude the site from automated collection or use manual collection if allowed.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 21%">
-<col style="width: 21%">
-<col style="width: 21%">
-<col style="width: 36%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
 </colgroup>
 <thead>
 <tr class="header">
