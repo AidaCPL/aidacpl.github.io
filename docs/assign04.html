@@ -160,6 +160,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./assign04.html">
  <span class="dropdown-text">Assignment 4</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./workshop_scraping.html">
+ <span class="dropdown-text">Workshop Scraping</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./assign05.html">
+ <span class="dropdown-text">Assignment 5</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -552,58 +560,58 @@ $ ref                             &lt;chr&gt; "", "", "", "", "", "", "", "", ""
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 [[1]]$node
-&lt;pointer: 0xc2f806700&gt;
+&lt;pointer: 0xb46cde480&gt;
 
 [[1]]$doc
-&lt;pointer: 0xc30575680&gt;
+&lt;pointer: 0xb4b4eac40&gt;
 
 
 [[2]]
 [[2]]$node
-&lt;pointer: 0xc2f83d980&gt;
+&lt;pointer: 0xb46ccd700&gt;
 
 [[2]]$doc
-&lt;pointer: 0xc30575680&gt;
+&lt;pointer: 0xb4b4eac40&gt;
 
 
 [[3]]
 [[3]]$node
-&lt;pointer: 0xc306e9e00&gt;
+&lt;pointer: 0xb4c235b80&gt;
 
 [[3]]$doc
-&lt;pointer: 0xc30575680&gt;
+&lt;pointer: 0xb4b4eac40&gt;
 
 
 [[4]]
 [[4]]$node
-&lt;pointer: 0xc30734980&gt;
+&lt;pointer: 0xb4c254700&gt;
 
 [[4]]$doc
-&lt;pointer: 0xc30575680&gt;
+&lt;pointer: 0xb4b4eac40&gt;
 
 
 [[5]]
 [[5]]$node
-&lt;pointer: 0xc30752180&gt;
+&lt;pointer: 0xb4c265f00&gt;
 
 [[5]]$doc
-&lt;pointer: 0xc30575680&gt;
+&lt;pointer: 0xb4b4eac40&gt;
 
 
 [[6]]
 [[6]]$node
-&lt;pointer: 0xc30762e80&gt;
+&lt;pointer: 0xb4c26ac00&gt;
 
 [[6]]$doc
-&lt;pointer: 0xc30575680&gt;
+&lt;pointer: 0xb4b4eac40&gt;
 
 
 [[7]]
 [[7]]$node
-&lt;pointer: 0xc3077d900&gt;
+&lt;pointer: 0xb4c27d680&gt;
 
 [[7]]$doc
-&lt;pointer: 0xc30575680&gt;</code></pre>
+&lt;pointer: 0xb4b4eac40&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>fifa_results_raw <span class="ot">&lt;-</span> fifa_tabs[[<span class="dv">7</span>]] <span class="sc">|&gt;</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
