@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -158,8 +193,36 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#searching-govinfo-manually" id="toc-searching-govinfo-manually" class="nav-link" data-scroll-target="#searching-govinfo-manually">1. Searching GovInfo manually</a></li>
+  <li><a href="#connecting-to-the-govinfo-api" id="toc-connecting-to-the-govinfo-api" class="nav-link" data-scroll-target="#connecting-to-the-govinfo-api">2. Connecting to the GovInfo API</a>
+  <ul class="collapse">
+  <li><a href="#preparing-the-r-environment" id="toc-preparing-the-r-environment" class="nav-link" data-scroll-target="#preparing-the-r-environment">2.1. Preparing the R environment</a></li>
+  <li><a href="#searching-for-the-hearings" id="toc-searching-for-the-hearings" class="nav-link" data-scroll-target="#searching-for-the-hearings">2.2. Searching for the hearings</a></li>
+  <li><a href="#selecting-the-ten-most-recent-hearings" id="toc-selecting-the-ten-most-recent-hearings" class="nav-link" data-scroll-target="#selecting-the-ten-most-recent-hearings">2.3. Selecting the ten most recent hearings</a></li>
+  </ul></li>
+  <li><a href="#downloading-the-documents" id="toc-downloading-the-documents" class="nav-link" data-scroll-target="#downloading-the-documents">3. Downloading the documents</a>
+  <ul class="collapse">
+  <li><a href="#retrieving-package-metadata" id="toc-retrieving-package-metadata" class="nav-link" data-scroll-target="#retrieving-package-metadata">3.1. Retrieving package metadata</a></li>
+  <li><a href="#creating-a-local-download-directory" id="toc-creating-a-local-download-directory" class="nav-link" data-scroll-target="#creating-a-local-download-directory">3.2. Creating a local download directory</a></li>
+  <li><a href="#downloading-the-ten-pdfs" id="toc-downloading-the-ten-pdfs" class="nav-link" data-scroll-target="#downloading-the-ten-pdfs">3.3. Downloading the ten PDFs</a></li>
+  <li><a href="#comparing-the-api-results-with-the-website-export" id="toc-comparing-the-api-results-with-the-website-export" class="nav-link" data-scroll-target="#comparing-the-api-results-with-the-website-export">3.4. Comparing the API results with the website export</a></li>
+  </ul></li>
+  <li><a href="#report" id="toc-report" class="nav-link" data-scroll-target="#report">4. Report</a>
+  <ul class="collapse">
+  <li><a href="#difficulties-with-the-collection-process" id="toc-difficulties-with-the-collection-process" class="nav-link" data-scroll-target="#difficulties-with-the-collection-process">Difficulties with the collection process</a></li>
+  <li><a href="#a.-how-usable-are-the-downloaded-documents-as-data" id="toc-a.-how-usable-are-the-downloaded-documents-as-data" class="nav-link" data-scroll-target="#a.-how-usable-are-the-downloaded-documents-as-data">a. How usable are the downloaded documents as data?</a></li>
+  <li><a href="#b.-how-could-the-process-be-improved" id="toc-b.-how-could-the-process-be-improved" class="nav-link" data-scroll-target="#b.-how-could-the-process-be-improved">b. How could the process be improved?</a></li>
+  <li><a href="#c.-what-did-the-api-provide-that-the-search-page-and-last-weeks-scraping-did-not" id="toc-c.-what-did-the-api-provide-that-the-search-page-and-last-weeks-scraping-did-not" class="nav-link" data-scroll-target="#c.-what-did-the-api-provide-that-the-search-page-and-last-weeks-scraping-did-not">c.&nbsp;What did the API provide that the search page and last week’s scraping did not?</a></li>
+  </ul></li>
+  <li><a href="#submit" id="toc-submit" class="nav-link" data-scroll-target="#submit">5. Submit</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -183,8 +246,713 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<hr>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This assignment uses the GovInfo API to collect congressional hearing documents and examine how government data can be accessed programmatically. I focus on hearings of the Senate Committee on Foreign Relations and compare the results from the GovInfo search interface with those returned by the API.</p>
+<p>The main distinction is between finding documents and making their contents usable as data. Although the API provides structured metadata and direct links to different document formats, the availability of a downloadable file does not necessarily mean that its contents can be analyzed without further processing.</p>
+</section>
+<section id="searching-govinfo-manually" class="level2">
+<h2 class="anchored" data-anchor-id="searching-govinfo-manually">1. Searching GovInfo manually</h2>
+<p>Before using the API, I searched the&nbsp;<a href="https://www.govinfo.gov/app/search/">GovInfo search page</a>&nbsp;for hearings of the Senate Committee on Foreign Relations. I sorted the results by publication date, with the newest documents first, and exported the results for comparison with the API.</p>
+<p>I saved the website export locally. I also recorded the query generated by the search page.</p>
+<p><strong>Search details</strong></p>
+<ul>
+<li><p>Search page:&nbsp;<a href="https://www.govinfo.gov/app/search/">GovInfo</a></p></li>
+<li><p>Collection: Congressional Hearings</p></li>
+<li><p>Committee: Senate Committee on Foreign Relations</p></li>
+<li><p>Sort order: Publication date, newest first</p></li>
+<li><p><a href="https://www.govinfo.gov/app/search/%7B%22query%22%3A%22%20Senate%20Committee%20on%20Foreign%20Relations%22%2C%22offset%22%3A0%2C%22sortBy%22%3A%222%22%2C%22facetToExpand%22%3A%22accodenav%22%2C%22facets%22%3A%7B%22accodenav%22%3A%5B%22CHRG%22%5D%7D%2C%22filterOrder%22%3A%5B%22accodenav%22%5D%7D">Query generated by the website</a></p></li>
+</ul>
+<p>The website export will serve as the reference list for checking whether the API returns the same ten hearings.</p>
+</section>
+<section id="connecting-to-the-govinfo-api" class="level1">
+<h1>2. Connecting to the GovInfo API</h1>
+<section id="preparing-the-r-environment" class="level2">
+<h2 class="anchored" data-anchor-id="preparing-the-r-environment">2.1. Preparing the R environment</h2>
+<p>The API key is stored in my local&nbsp;<code>.Renviron</code>&nbsp;file rather than in this document. This keeps the key out of the code and the public website repository.</p>
+<p>I load the packages needed to send requests, process JSON responses, and organize the results.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr) <span class="co"># Alternatively, load tidyverse</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'magrittr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:purrr':
+
+    set_names</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rjson)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'jsonlite'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:rjson':
+
+    fromJSON, toJSON</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:purrr':
+
+    flatten</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'data.table'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:purrr':
+
+    transpose</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:base':
+
+    %notin%</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr2)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:data.table':
+
+    between, first, last</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>api_key <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"GOVINFO_API_KEY"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">identical</span>(api_key, <span class="st">""</span>)) {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"GOVINFO_API_KEY is missing. Check .Renviron and restart R."</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>I first test the connection by requesting the available GovInfo collections.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>collections_response <span class="ot">&lt;-</span> <span class="fu">request</span>(<span class="st">"https://api.govinfo.gov/collections"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_query</span>(<span class="at">api_key =</span> api_key) <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_perform</span>()</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>collections <span class="ot">&lt;-</span> collections_response <span class="sc">|&gt;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(collections<span class="sc">$</span>collections)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  collectionCode               collectionName packageCount granuleCount
+1      ANNUALREP               Annual Reports         3686            2
+2          BILLS          Congressional Bills       291770           NA
+3     BILLSTATUS    Congressional Bill Status       173390           NA
+4        BILLSUM Congressional Bill Summaries         9749           NA
+5         BUDGET         United States Budget          459         7172
+6           CCAL      Congressional Calendars         6445       101477</code></pre>
+</div>
+</div>
+<p>The Congressional Hearings collection is identified by <code>CHRG</code> The API also provides collection information and package metadata, which can be used without downloading the full documents.</p>
+</section>
+<section id="searching-for-the-hearings" class="level2">
+<h2 class="anchored" data-anchor-id="searching-for-the-hearings">2.2. Searching for the hearings</h2>
+<p>The GovInfo API accepts a JSON request body for searches. The request below uses the website’s search language to find Congressional Hearings associated with the Senate Committee on Foreign Relations. Results are sorted by publication date in descending order.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>search_body <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">query =</span> <span class="st">'collection:(CHRG) AND "Committee on Foreign Relations"'</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pageSize =</span> <span class="dv">100</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">offsetMark =</span> <span class="st">"*"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">sorts =</span> <span class="fu">list</span>(</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">field =</span> <span class="st">"publishdate"</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">sortOrder =</span> <span class="st">"DESC"</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>search_response <span class="ot">&lt;-</span> <span class="fu">request</span>(<span class="st">"https://api.govinfo.gov/search"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_query</span>(<span class="at">api_key =</span> api_key) <span class="sc">|&gt;</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_body_json</span>(search_body) <span class="sc">|&gt;</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_perform</span>()</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>search_data <span class="ot">&lt;-</span> search_response <span class="sc">|&gt;</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(search_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "count"      "offsetMark" "results"   </code></pre>
+</div>
+</div>
+<p>The response contains the search results and pagination information. I inspect the first result to check which fields are available before extracting the package identifiers.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(search_data<span class="sc">$</span>results) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"No results returned. Check the search query and API response."</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(search_data<span class="sc">$</span>results[[<span class="dv">1</span>]], <span class="at">max.level =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 11
+ $ title           : chr "Arms Control and Transforming International Security Functions at the State Department"
+ $ packageId       : chr "CHRG-119shrg63909"
+ $ granuleId       : chr "CHRG-119shrg63909"
+ $ lastModified    : chr "2026-08-20T14:06:08Z"
+ $ governmentAuthor:List of 2
+  ..$ : chr "Congress"
+  ..$ : chr "Senate"
+ $ dateIssued      : chr "2026-03-24"
+ $ collectionCode  : chr "CHRG"
+ $ dateIngested    : chr "2026-07-06"
+ $ download        :List of 5
+  ..$ premisLink: chr "https://api.govinfo.gov/packages/CHRG-119shrg63909/premis"
+  ..$ txtLink   : chr "https://api.govinfo.gov/packages/CHRG-119shrg63909/granules/CHRG-119shrg63909/htm"
+  ..$ zipLink   : chr "https://api.govinfo.gov/packages/CHRG-119shrg63909/zip"
+  ..$ modsLink  : chr "https://api.govinfo.gov/packages/CHRG-119shrg63909/granules/CHRG-119shrg63909/mods"
+  ..$ pdfLink   : chr "https://api.govinfo.gov/packages/CHRG-119shrg63909/granules/CHRG-119shrg63909/pdf"
+ $ relatedLink     : chr "https://api.govinfo.gov/related/CHRG-119shrg63909"
+ $ resultLink      : chr "https://api.govinfo.gov/packages/CHRG-119shrg63909/granules/CHRG-119shrg63909/summary"</code></pre>
+</div>
+</div>
+</section>
+<section id="selecting-the-ten-most-recent-hearings" class="level2">
+<h2 class="anchored" data-anchor-id="selecting-the-ten-most-recent-hearings">2.3. Selecting the ten most recent hearings</h2>
+<p>I use the package identifiers returned by the API to identify individual documents. I keep the publication date and title alongside each identifier so that the final list can be checked against the website export.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>api_results <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(search_data<span class="sc">$</span>results, <span class="cf">function</span>(x) {</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">packageId =</span> x<span class="sc">$</span>packageId <span class="sc">%||%</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> x<span class="sc">$</span>title <span class="sc">%||%</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">publishdate =</span> x<span class="sc">$</span>publishdate <span class="sc">%||%</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">packageLink =</span> x<span class="sc">$</span>packageLink <span class="sc">%||%</span> <span class="cn">NA_character_</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>api_results <span class="ot">&lt;-</span> api_results <span class="sc">|&gt;</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(packageId)) <span class="sc">|&gt;</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(packageId, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(publishdate))</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>latest_hearings <span class="ot">&lt;-</span> api_results <span class="sc">|&gt;</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>latest_hearings <span class="sc">|&gt;</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(publishdate, title, packageId)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 3
+   publishdate title                                                   packageId
+   &lt;chr&gt;       &lt;chr&gt;                                                   &lt;chr&gt;    
+ 1 &lt;NA&gt;        Arms Control and Transforming International Security F… CHRG-119…
+ 2 &lt;NA&gt;        A Pathway to European Energy Security                   CHRG-119…
+ 3 &lt;NA&gt;        Countering Terrorism in North Africa: Opportunities an… CHRG-119…
+ 4 &lt;NA&gt;        NATO Summit 2025: An Assessment of Transatlantic Secur… CHRG-119…
+ 5 &lt;NA&gt;        East Africa &amp; the Horn: At a Turning Point or Breaking… CHRG-119…
+ 6 &lt;NA&gt;        Shared Threats: Indo Pacific Alliances and Burden Shar… CHRG-119…
+ 7 &lt;NA&gt;        PRC Influence and the Status of Taiwan's Diplomatic Al… CHRG-119…
+ 8 &lt;NA&gt;        Advancing American Interests in the Western Hemisphere  CHRG-119…
+ 9 &lt;NA&gt;        Interdicting Illicit Drug Trafficking: A View from the… CHRG-119…
+10 &lt;NA&gt;        After Assad: Navigating Syria Policy                    CHRG-119…</code></pre>
+</div>
+</div>
+<p>If the first response does not contain ten suitable results, I would request the next page using the returned <code>offsetMark</code>, continuing until ten qualifying hearings are available. I would also verify that the returned titles actually correspond to the intended committee, since search results may include documents that mention the committee without being hearings of that committee.</p>
+</section>
+</section>
+<section id="downloading-the-documents" class="level1">
+<h1>3. Downloading the documents</h1>
+<section id="retrieving-package-metadata" class="level2">
+<h2 class="anchored" data-anchor-id="retrieving-package-metadata">3.1. Retrieving package metadata</h2>
+<p>The package summary endpoint provides metadata and links to available document formats. This allows me to examine the options before deciding which files to download.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>get_package_summary <span class="ot">&lt;-</span> <span class="cf">function</span>(package_id) {</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">request</span>(</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste0</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">"https://api.govinfo.gov/packages/"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>      package_id,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"/summary"</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req_url_query</span>(<span class="at">api_key =</span> api_key) <span class="sc">|&gt;</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req_perform</span>() <span class="sc">|&gt;</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>first_summary <span class="ot">&lt;-</span> <span class="fu">get_package_summary</span>(latest_hearings<span class="sc">$</span>packageId[[<span class="dv">1</span>]])</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(first_summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "documentType"      "congress"          "heldDates"        
+ [4] "session"           "documentNumber"    "detailsLink"      
+ [7] "title"             "branch"            "collectionName"   
+[10] "download"          "pages"             "chamber"          
+[13] "relatedLink"       "suDocClassNumber"  "granulesLink"     
+[16] "dateIssued"        "packageId"         "collectionCode"   
+[19] "governmentAuthor2" "governmentAuthor1" "publisher"        
+[22] "docClass"          "lastModified"      "category"         
+[25] "otherIdentifier"  </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(first_summary<span class="sc">$</span>download, <span class="at">max.level =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 3
+ $ premisLink: chr "https://api.govinfo.gov/packages/CHRG-119shrg63909/premis"
+ $ zipLink   : chr "https://api.govinfo.gov/packages/CHRG-119shrg63909/zip"
+ $ modsLink  : chr "https://api.govinfo.gov/packages/CHRG-119shrg63909/mods"</code></pre>
+</div>
+</div>
+</section>
+<section id="creating-a-local-download-directory" class="level2">
+<h2 class="anchored" data-anchor-id="creating-a-local-download-directory">3.2. Creating a local download directory</h2>
+<p>I save the documents outside the website’s published output directory. The downloaded files and the log are local working data, not content to publish on GitHub Pages.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>download_dir <span class="ot">&lt;-</span> <span class="st">"data/govinfo_downloads"</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(download_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="downloading-the-ten-pdfs" class="level2">
+<h2 class="anchored" data-anchor-id="downloading-the-ten-pdfs">3.3. Downloading the ten PDFs</h2>
+<p>The following function retrieves the PDF link from each package summary, downloads the file, and records whether the download succeeded. It also records errors so that failed requests can be investigated rather than silently ignored.</p>
+<p>I was having trupiuble downloading the PDFs because they didn’t seem to be available as easily as the manual, hence I downloaded the zip fails which include the PDFs.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>get_zip_link <span class="ot">&lt;-</span> <span class="cf">function</span>(summary) {</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  links <span class="ot">&lt;-</span> summary<span class="sc">$</span>download</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(links) <span class="sc">||</span> <span class="fu">is.null</span>(links<span class="sc">$</span>zipLink)) {</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NA_character_</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  links<span class="sc">$</span>zipLink</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>download_hearing <span class="ot">&lt;-</span> <span class="cf">function</span>(package_id, title) {</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tryCatch</span>({</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    summary <span class="ot">&lt;-</span> <span class="fu">get_package_summary</span>(package_id)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    zip_url <span class="ot">&lt;-</span> <span class="fu">get_zip_link</span>(summary)</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.na</span>(zip_url) <span class="sc">||</span> <span class="sc">!</span><span class="fu">nzchar</span>(zip_url)) {</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stop</span>(<span class="st">"No ZIP link was available."</span>)</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Append the API key to the ZIP URL</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>    zip_url <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>      zip_url,</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">?"</span>, zip_url)) <span class="st">"&amp;"</span> <span class="cf">else</span> <span class="st">"?"</span>,</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"api_key="</span>,</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>      api_key</span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>    file_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(</span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>      download_dir,</span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste0</span>(package_id, <span class="st">".zip"</span>)</span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">request</span>(zip_url) <span class="sc">|&gt;</span></span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>      <span class="fu">req_perform</span>(<span class="at">path =</span> file_path)</span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(</span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">packageId =</span> package_id,</span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> title,</span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">file =</span> file_path,</span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>      <span class="at">status =</span> <span class="st">"success"</span>,</span>
+<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">error =</span> <span class="cn">NA_character_</span></span>
+<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(</span>
+<span id="cb31-45"><a href="#cb31-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">packageId =</span> package_id,</span>
+<span id="cb31-46"><a href="#cb31-46" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> title,</span>
+<span id="cb31-47"><a href="#cb31-47" aria-hidden="true" tabindex="-1"></a>      <span class="at">file =</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb31-48"><a href="#cb31-48" aria-hidden="true" tabindex="-1"></a>      <span class="at">status =</span> <span class="st">"failed"</span>,</span>
+<span id="cb31-49"><a href="#cb31-49" aria-hidden="true" tabindex="-1"></a>      <span class="at">error =</span> <span class="fu">conditionMessage</span>(e)</span>
+<span id="cb31-50"><a href="#cb31-50" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-51"><a href="#cb31-51" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb31-52"><a href="#cb31-52" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-53"><a href="#cb31-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-54"><a href="#cb31-54" aria-hidden="true" tabindex="-1"></a>download_log <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map2_dfr</span>(</span>
+<span id="cb31-55"><a href="#cb31-55" aria-hidden="true" tabindex="-1"></a>  latest_hearings<span class="sc">$</span>packageId,</span>
+<span id="cb31-56"><a href="#cb31-56" aria-hidden="true" tabindex="-1"></a>  latest_hearings<span class="sc">$</span>title,</span>
+<span id="cb31-57"><a href="#cb31-57" aria-hidden="true" tabindex="-1"></a>  download_hearing</span>
+<span id="cb31-58"><a href="#cb31-58" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-59"><a href="#cb31-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-60"><a href="#cb31-60" aria-hidden="true" tabindex="-1"></a>download_log</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 5
+   packageId         title                                    file  status error
+   &lt;chr&gt;             &lt;chr&gt;                                    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;
+ 1 CHRG-119shrg63909 Arms Control and Transforming Internati… data… succe… &lt;NA&gt; 
+ 2 CHRG-119shrg63707 A Pathway to European Energy Security    data… succe… &lt;NA&gt; 
+ 3 CHRG-119shrg64059 Countering Terrorism in North Africa: O… data… succe… &lt;NA&gt; 
+ 4 CHRG-119shrg61565 NATO Summit 2025: An Assessment of Tran… data… succe… &lt;NA&gt; 
+ 5 CHRG-119shrg60820 East Africa &amp; the Horn: At a Turning Po… data… succe… &lt;NA&gt; 
+ 6 CHRG-119shrg60819 Shared Threats: Indo Pacific Alliances … data… succe… &lt;NA&gt; 
+ 7 CHRG-119shrg60060 PRC Influence and the Status of Taiwan'… data… succe… &lt;NA&gt; 
+ 8 CHRG-119shrg60032 Advancing American Interests in the Wes… data… succe… &lt;NA&gt; 
+ 9 CHRG-119shrg61202 Interdicting Illicit Drug Trafficking: … data… succe… &lt;NA&gt; 
+10 CHRG-119shrg59893 After Assad: Navigating Syria Policy     data… succe… &lt;NA&gt; </code></pre>
+</div>
+</div>
+<p>I save the log locally so that I can check which documents were downloaded successfully.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  download_log,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(download_dir, <span class="st">"download_log.csv"</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>download_log <span class="sc">|&gt;</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(status)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  status      n
+  &lt;chr&gt;   &lt;int&gt;
+1 success    10</code></pre>
+</div>
+</div>
+</section>
+<section id="comparing-the-api-results-with-the-website-export" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-the-api-results-with-the-website-export">3.4. Comparing the API results with the website export</h2>
+<p>I compare the package identifiers from the API with those from the manually exported CSV. GovInfo’s export can contain introductory rows or metadata before the actual table, so I first inspect the file structure.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>manual_file <span class="ot">&lt;-</span> <span class="st">"data/govinfo-search-results.csv"</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(manual_file)) {</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  manual_results <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    manual_file,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Check that the file was imported with the expected columns</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(manual_results)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(manual_results, <span class="dv">5</span>)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"CSV export not found. Check the file path: "</span>, manual_file)</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 19
+  index collection         packageId granuleId title detailsLink pdfLink pdfSize
+  &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;  
+1 1     Congressional Hea… CHRG-119… CHRG-119… Behi… https://ww… https:… 36.9 MB
+2 2     Congressional Hea… CHRG-119… CHRG-119… Defe… https://ww… https:… 52.8 MB
+3 3     Congressional Hea… CHRG-119… CHRG-119… Arms… https://ww… https:… 343.0 …
+4 4     Congressional Hea… CHRG-119… CHRG-119… THE … https://ww… https:… 23.2 MB
+5 5     Congressional Hea… CHRG-119… CHRG-119… Deep… https://ww… https:… 6.4 MB 
+# ℹ 11 more variables: htmlLink &lt;chr&gt;, htmlSize &lt;chr&gt;, xmlLink &lt;lgl&gt;,
+#   xmlSize &lt;chr&gt;, otherLink1 &lt;lgl&gt;, other1Size &lt;chr&gt;, otherLink2 &lt;lgl&gt;,
+#   other2Size &lt;chr&gt;, teaser &lt;chr&gt;, historical &lt;lgl&gt;, publishdate &lt;date&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(manual_results, <span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 19
+  index collection         packageId granuleId title detailsLink pdfLink pdfSize
+  &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;  
+1 1     Congressional Hea… CHRG-119… CHRG-119… Behi… https://ww… https:… 36.9 MB
+2 2     Congressional Hea… CHRG-119… CHRG-119… Defe… https://ww… https:… 52.8 MB
+3 3     Congressional Hea… CHRG-119… CHRG-119… Arms… https://ww… https:… 343.0 …
+4 4     Congressional Hea… CHRG-119… CHRG-119… THE … https://ww… https:… 23.2 MB
+5 5     Congressional Hea… CHRG-119… CHRG-119… Deep… https://ww… https:… 6.4 MB 
+6 6     Congressional Hea… CHRG-119… CHRG-119… U.S.… https://ww… https:… 295.3 …
+7 7     Congressional Hea… CHRG-119… CHRG-119… A Pa… https://ww… https:… 8.8 MB 
+8 8     Congressional Hea… CHRG-119… CHRG-119… Coun… https://ww… https:… 305.6 …
+# ℹ 11 more variables: htmlLink &lt;chr&gt;, htmlSize &lt;chr&gt;, xmlLink &lt;lgl&gt;,
+#   xmlSize &lt;chr&gt;, otherLink1 &lt;lgl&gt;, other1Size &lt;chr&gt;, otherLink2 &lt;lgl&gt;,
+#   other2Size &lt;chr&gt;, teaser &lt;chr&gt;, historical &lt;lgl&gt;, publishdate &lt;date&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check which collections appear in the manual export</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">"collection"</span> <span class="sc">%in%</span> <span class="fu">names</span>(manual_results)) {</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  manual_results <span class="sc">|&gt;</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(collection, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  collection                                n
+  &lt;chr&gt;                                 &lt;int&gt;
+1 Congressional Hearings                  995
+2 Bulk Submission                           5
+3 3032                                      1
+4 Senate Committee on Foreign Relations     1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the package IDs and titles, if available</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>manual_results <span class="sc">|&gt;</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">"collection"</span>, <span class="st">"packageId"</span>, <span class="st">"title"</span>, <span class="st">"publishdate"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+   collection             packageId         title                    publishdate
+   &lt;chr&gt;                  &lt;chr&gt;             &lt;chr&gt;                    &lt;date&gt;     
+ 1 Congressional Hearings CHRG-119shrg64352 Behind the Label: Forei… 2026-07-15 
+ 2 Congressional Hearings CHRG-119hhrg63520 Defending Main Street: … 2026-03-25 
+ 3 Congressional Hearings CHRG-119shrg63909 Arms Control and Transf… 2026-03-24 
+ 4 Congressional Hearings CHRG-119shrg63409 THE DEPARTMENT OF ENERG… 2026-03-19 
+ 5 Congressional Hearings CHRG-119hhrg64201 Deepseek and Unitree Ro… 2026-03-17 
+ 6 Congressional Hearings CHRG-119shrg64385 U.S. Leadership at the … 2026-03-17 
+ 7 Congressional Hearings CHRG-119shrg63707 A Pathway to European E… 2026-02-04 
+ 8 Congressional Hearings CHRG-119shrg64059 Countering Terrorism in… 2026-02-03 
+ 9 Congressional Hearings CHRG-119shrg63403 Truth in Labeling: Amer… 2026-01-29 
+10 Congressional Hearings CHRG-119shrg63883 Nomination to the Natio… 2025-12-03 </code></pre>
+</div>
+</div>
+<p>Prepare the manual and API package IDs</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>manual_ids <span class="ot">&lt;-</span> manual_results <span class="sc">|&gt;</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">packageId =</span> <span class="fu">trimws</span>(<span class="fu">as.character</span>(packageId))) <span class="sc">|&gt;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(packageId), packageId <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>api_ids <span class="ot">&lt;-</span> latest_hearings <span class="sc">|&gt;</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">packageId =</span> <span class="fu">trimws</span>(<span class="fu">as.character</span>(packageId))) <span class="sc">|&gt;</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(packageId), packageId <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Check how many unique records each source contains</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="fu">c</span>(<span class="st">"Manual export"</span>, <span class="st">"API results"</span>),</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">number_of_records =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(manual_ids), <span class="fu">nrow</span>(api_ids))</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  source        number_of_records
+  &lt;chr&gt;                     &lt;int&gt;
+1 Manual export              1000
+2 API results                  10</code></pre>
+</div>
+</div>
+<p>Create the comparison table.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>manual_only <span class="ot">&lt;-</span> <span class="fu">anti_join</span>(manual_ids, api_ids, <span class="at">by =</span> <span class="st">"packageId"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">source =</span> <span class="st">"Manual only"</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>api_only <span class="ot">&lt;-</span> <span class="fu">anti_join</span>(api_ids, manual_ids, <span class="at">by =</span> <span class="st">"packageId"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">source =</span> <span class="st">"API only"</span>)</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>matching_ids <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  manual_ids,</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  api_ids,</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"packageId"</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>  matching_ids,</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Package IDs Matching in Manual GovInfo Export and API Results"</span>,</span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="st">"Package ID"</span>,</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">"l"</span></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Package IDs Matching in Manual GovInfo Export and API Results</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Package ID</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">CHRG-119shrg63909</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHRG-119shrg63707</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CHRG-119shrg64059</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHRG-119shrg61565</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CHRG-119shrg60820</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHRG-119shrg60819</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CHRG-119shrg60060</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHRG-119shrg60032</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CHRG-119shrg61202</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHRG-119shrg59893</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Check how many records match.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>matching_ids <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(manual_ids, api_ids, <span class="at">by =</span> <span class="st">"packageId"</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">measure =</span> <span class="fu">c</span>(</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Matching package IDs"</span>,</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Manual-only package IDs"</span>,</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"API-only package IDs"</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">count =</span> <span class="fu">c</span>(</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>(matching_ids),</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>(manual_only),</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>(api_only)</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  measure                 count
+  &lt;chr&gt;                   &lt;int&gt;
+1 Matching package IDs       10
+2 Manual-only package IDs   990
+3 API-only package IDs        0</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="report" class="level1">
+<h1>4. Report</h1>
+<section id="difficulties-with-the-collection-process" class="level2">
+<h2 class="anchored" data-anchor-id="difficulties-with-the-collection-process">Difficulties with the collection process</h2>
+<p>One of the main difficulties was figuring out how to get from the search results to the actual documents. The GovInfo website makes it possible to search and export records, but I still needed to make sure that the results corresponded to the hearings I was looking for. With the API, I could retrieve the records in R and sort them by publication date, but I had to understand how the search query worked and how the information was organized in the API response.</p>
+<p>Downloading the documents was another challenge. I initially tried to retrieve PDF links from the package summaries, but the response did not include a direct PDF link. Instead, it provided a ZIP download link, so I changed my code to download the hearing packages as ZIP files. This also showed me that keeping a download log matters since finding a document through the API does not necessarily mean that the file has been downloaded successfully.</p>
+</section>
+<section id="a.-how-usable-are-the-downloaded-documents-as-data" class="level2">
+<h2 class="anchored" data-anchor-id="a.-how-usable-are-the-downloaded-documents-as-data">a. How usable are the downloaded documents as data?</h2>
+<p>The hearing documents contain useful information, but the PDFs are not ready to analyze directly. To turn them into a table or text corpus, I would first need to extract the text and organize it into a consistent format. For example, I could record the hearing date, title, speaker, and statements made during the hearing. I would also need to check the extracted text for formatting problems, since tables, speaker labels, and other document elements might not be captured correctly.</p>
+</section>
+<section id="b.-how-could-the-process-be-improved" class="level2">
+<h2 class="anchored" data-anchor-id="b.-how-could-the-process-be-improved">b. How could the process be improved?</h2>
+<p>I could make the process more efficient by using the other formats available through GovInfo instead of relying on PDFs alone. Plain-text files would be easier to work with for text analysis, while the metadata already provides information such as the title, date, chamber, and document type. This information could be collected before opening or processing the documents and used to organize the dataset. I would also keep the search query and download log so that I could check which documents were collected and reproduce the process later.</p>
+</section>
+<section id="c.-what-did-the-api-provide-that-the-search-page-and-last-weeks-scraping-did-not" class="level2">
+<h2 class="anchored" data-anchor-id="c.-what-did-the-api-provide-that-the-search-page-and-last-weeks-scraping-did-not">c.&nbsp;What did the API provide that the search page and last week’s scraping did not?</h2>
+<p>The API allowed me to retrieve structured search results directly in R, which made it easier to filter, sort, and compare documents without manually processing a webpage. It also provided access to package metadata and download links, making it easier to collect information about multiple documents in a more consistent and reproducible way. It is also a more reliable and legal/ethical way of obtaining data. There is not many hurdles to get through after being authorized an API key, whereas for scraping we had to politely get the info.</p>
+</section>
+</section>
+<section id="submit" class="level1">
+<h1>5. Submit</h1>
+<p>Download log:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>download_log <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data/govinfo_downloads/download_log.csv"</span>,</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  download_log,</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"GovInfo API Download Log"</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>GovInfo API Download Log</caption>
+<colgroup>
+<col style="width: 10%">
+<col style="width: 54%">
+<col style="width: 26%">
+<col style="width: 4%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">packageId</th>
+<th style="text-align: left;">title</th>
+<th style="text-align: left;">file</th>
+<th style="text-align: left;">status</th>
+<th style="text-align: left;">error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">CHRG-119shrg63909</td>
+<td style="text-align: left;">Arms Control and Transforming International Security Functions at the State Department</td>
+<td style="text-align: left;">data/govinfo_downloads/CHRG-119shrg63909.zip</td>
+<td style="text-align: left;">success</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHRG-119shrg63707</td>
+<td style="text-align: left;">A Pathway to European Energy Security</td>
+<td style="text-align: left;">data/govinfo_downloads/CHRG-119shrg63707.zip</td>
+<td style="text-align: left;">success</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CHRG-119shrg64059</td>
+<td style="text-align: left;">Countering Terrorism in North Africa: Opportunities and Challenges</td>
+<td style="text-align: left;">data/govinfo_downloads/CHRG-119shrg64059.zip</td>
+<td style="text-align: left;">success</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHRG-119shrg61565</td>
+<td style="text-align: left;">NATO Summit 2025: An Assessment of Transatlantic Security Cooperation</td>
+<td style="text-align: left;">data/govinfo_downloads/CHRG-119shrg61565.zip</td>
+<td style="text-align: left;">success</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CHRG-119shrg60820</td>
+<td style="text-align: left;">East Africa &amp; the Horn: At a Turning Point or Breaking Point?</td>
+<td style="text-align: left;">data/govinfo_downloads/CHRG-119shrg60820.zip</td>
+<td style="text-align: left;">success</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHRG-119shrg60819</td>
+<td style="text-align: left;">Shared Threats: Indo Pacific Alliances and Burden Sharing in Today’s Geopolitical Environment</td>
+<td style="text-align: left;">data/govinfo_downloads/CHRG-119shrg60819.zip</td>
+<td style="text-align: left;">success</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CHRG-119shrg60060</td>
+<td style="text-align: left;">PRC Influence and the Status of Taiwan’s Diplomatic Allies in the Western Hemisphere</td>
+<td style="text-align: left;">data/govinfo_downloads/CHRG-119shrg60060.zip</td>
+<td style="text-align: left;">success</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHRG-119shrg60032</td>
+<td style="text-align: left;">Advancing American Interests in the Western Hemisphere</td>
+<td style="text-align: left;">data/govinfo_downloads/CHRG-119shrg60032.zip</td>
+<td style="text-align: left;">success</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CHRG-119shrg61202</td>
+<td style="text-align: left;">Interdicting Illicit Drug Trafficking: A View from the Front Lines</td>
+<td style="text-align: left;">data/govinfo_downloads/CHRG-119shrg61202.zip</td>
+<td style="text-align: left;">success</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHRG-119shrg59893</td>
+<td style="text-align: left;">After Assad: Navigating Syria Policy</td>
+<td style="text-align: left;">data/govinfo_downloads/CHRG-119shrg59893.zip</td>
+<td style="text-align: left;">success</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
